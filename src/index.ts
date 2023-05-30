@@ -15,14 +15,27 @@ const checkWorkingDirectoryStatus = () => {
 }
 
 
+const checkStatus = ()=>{
+ const s= execSync('git status --short --untracked-files=no').toString()
 
-const s =  execSync('git status --short --untracked-files=no')
-console.log(s.toString());
+
+ if(s){
+  console.log(1);
+
+ }else {
+  console.log(2);
+ }
+}
+
+checkStatus()
+
+
+
 
 
 
 const { version } = readJSON(`${process.cwd()}/package.json`);
 console.log(version);
 
-checkWorkingDirectoryStatus()
+//checkWorkingDirectoryStatus()
 
