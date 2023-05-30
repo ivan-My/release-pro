@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ESNext",
+    "module": "commonjs",              // 将输出文件合并为一个文件；只有module为amd或system才可用
+    "outDir": "./lib",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "types": [ "node"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "lib", "es", "**/__tests__/**", "tests"]
+}
