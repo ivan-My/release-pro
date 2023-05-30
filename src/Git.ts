@@ -38,8 +38,13 @@ class Git extends Config {
   }
 
   checkStatus = () => {
+
     try {
-      execSync('git diff-index --quiet HEAD --');
+    const d = execSync('git diff-index --quiet HEAD --');
+
+    console.log(222);
+    console.log(d);
+
       return true
     } catch (error) {
       return false
