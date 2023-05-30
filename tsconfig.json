@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "ESNext",
-    "module": "commonjs",
+    "module": "NodeNext",
     "moduleResolution": "Node",
     "outDir": "./lib",
     "importHelpers": true,
