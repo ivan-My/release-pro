@@ -80,7 +80,6 @@ class Git extends Config {
     if (this.getAllTags().includes(currentTag)) {
       console.log(colors.red(`Tag ${currentTag} 已经存在`))
     }
-
     // execSync(`git tag v${this.version}`)
     // execSync(`git tag v1.0.1`)
   }
