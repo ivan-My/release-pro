@@ -2,8 +2,8 @@ import fs from 'fs'
 import inquirer from 'inquirer';
 import colors from 'colors'
 import { getVersion, readJSON } from './utils'
-import Git from './Git'
-
+import Git from './plugin/Git'
+import {getCurrentBranch} from './utils/exec'
 
 export default class CLI {
   public git: Git
@@ -15,6 +15,14 @@ export default class CLI {
     this.nextVersion = getVersion(this.pkg.version)
   }
   run() {
+    // getCurrentBranch()
+    // .then(branchName => {
+    //   console.log('Current branch:', branchName);
+    // })
+    // .catch(error => {
+    //   console.error('Failed to get current branch:', error);
+    // });
+    // return
     this.git.prepare()
     inquirer
       .prompt([{

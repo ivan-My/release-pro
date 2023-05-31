@@ -1,9 +1,10 @@
 import { execSync } from 'child_process'
 import colors from 'colors'
 import _ from 'lodash'
-import Config from './Config'
+import Plugin from './Plugin'
 
-class Git extends Config {
+
+class Git extends Plugin {
   public options: any
   version: string
 
@@ -13,6 +14,7 @@ class Git extends Config {
     this.version = ''
   }
   init() {
+    console.log('---npm---')
     this.prepare()
   }
 
