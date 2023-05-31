@@ -59,8 +59,9 @@ class Git extends Config {
   }
 
   commit(version) {
+    execSync('git add .')
     const msg = this.options.commitMessage.replace(/v\${version}/, version)
-    execSync(`git commit -am '${msg}'`)
+    execSync(`git commit -m '${msg}'`)
   }
 
 
