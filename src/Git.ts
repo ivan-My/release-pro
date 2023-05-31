@@ -76,6 +76,7 @@ class Git extends Config {
 
   tag() {
 
+    // 判断tag是否已经打过
     const currentTag = `v${this.version}`
     console.log('curent=',currentTag)
     console.log(this.getAllTags())
