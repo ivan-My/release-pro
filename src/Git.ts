@@ -65,11 +65,24 @@ class Git extends Config {
     this.version = version
     execSync('git add .')
     const msg = this.options.commitMessage.replace(/v\${version}/, version)
-    execSync(`git commit -m '222${msg}'`)
+    execSync(`git commit -m '${msg}'`)
+  }
+
+
+  getAllTags() {
+    const tags = execSync('git tag --list').toString().trim().split('\n');
+    return tags;
   }
 
   tag() {
-    execSync(`git tag v${this.version}`)
+
+    const currentTag = `v${this.version}`
+    console.log('curent=',currentTag)
+    console.log(this.getAllTags())
+    console.log(this.getAllTags().includes(currentTag))
+
+    // execSync(`git tag v${this.version}`)
+    // execSync(`git tag v1.0.1`)
   }
 
 }
