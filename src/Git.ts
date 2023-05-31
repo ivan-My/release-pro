@@ -2,49 +2,51 @@ import { execSync } from 'child_process'
 import colors from 'colors'
 import _ from 'lodash'
 import Config from './Config'
+import { GitType } from './utils/types'
 
-const options = {
-  requireBranch: "main"
-}
+
 
 class Git extends Config {
+  public options: any
+
   constructor() {
     super()
-    this.init()
+    this.options = this.config.git
+  }
+  init() {
+    this.prepare()
   }
 
-  init() {
-    if (!this.isRequiredBranch()) {
-      console.log(colors.red(`必须在${options.requireBranch}分支上`))
+  prepare() {
+    if (this.options.requireBranch && !this.isRequiredBranch()) {
+      console.log(colors.red(`必须在${this.options.requireBranch}分支上`))
       process.exit(-1)
     }
 
     if (!this.checkStatus()) {
       console.log(colors.red('工作目录有未提交的更改，请先提交或丢弃这些更改'))
-      process.exit(-1)
+      //  process.exit(-1)
     }
+
     if (!this.hasUpstream()) {
       console.log(colors.red('没有为当前分支配置上游地址'))
       process.exit(-1)
     }
   }
+
   getBranchName = () => {
     return execSync('git rev-parse --abbrev-ref HEAD').toString();
   }
+
   isRequiredBranch = () => {
     const name = this.getBranchName()
-    const requiredBranchArray = _.castArray(options.requireBranch)
+    const requiredBranchArray = _.castArray(this.options.requireBranch)
     return requiredBranchArray.includes(name.trim())
   }
 
   checkStatus = () => {
-
     try {
-    const d = execSync('git diff-index --quiet HEAD --');
-
-    console.log(222);
-    console.log(d);
-
+      execSync('git diff-index --quiet HEAD --');
       return true
     } catch (error) {
       return false
@@ -52,13 +54,17 @@ class Git extends Config {
   }
 
   hasUpstream = () => {
-    const branchName = this.getBranchName()
     const ref = execSync('git symbolic-ref HEAD').toString()
-    return execSync(`git for-each-ref --format="%(upstream:short)" ${ref}`).toString()
+    return execSync(`git for-each-ref --format="%(upstream:short)" ${ref}`).toString().trim()
   }
 
-}
+  commit(version) {
+    const msg = this.options.commitMessage.replace(/v\${version}/, version)
+    execSync(`git commit -am '${msg}'`)
+  }
 
+
+}
 
 
 

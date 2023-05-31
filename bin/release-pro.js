@@ -1,3 +1,5 @@
 #!/usr/bin/env node
 
-require('../lib/')
+const CLI = require('../lib/cli').default
+
+new CLI().run()
