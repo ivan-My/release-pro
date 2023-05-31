@@ -82,7 +82,7 @@ class Git extends Config {
     // 判断tag是否已经存在
     if (this.getAllTags().includes(currentTag)) {
       console.log(colors.red(`Tag ${currentTag} 已经存在`))
-      this.reset
+      this.reset()
       process.exit(-1)
 
     }
@@ -101,6 +101,7 @@ class Git extends Config {
   }
   // 获取最近一次commit hash
   getLatestCommitHash() {
+
     try {
       const hash = execSync('git rev-parse HEAD').toString().trim();
       console.log('Latest commit hash:', hash);
