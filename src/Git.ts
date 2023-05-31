@@ -25,7 +25,7 @@ class Git extends Config {
 
     if (!this.checkStatus()) {
       console.log(colors.red('工作目录有未提交的更改，请先提交或丢弃这些更改'))
-      //  process.exit(-1)
+      process.exit(-1)
     }
 
     if (!this.hasUpstream()) {
@@ -70,12 +70,10 @@ class Git extends Config {
     }
   }
 
-
   getAllTags() {
     const tags = execSync('git tag --list').toString().trim().split('\n');
     return tags;
   }
-
 
   tag() {
     const currentTag = `v${this.version}`
@@ -87,7 +85,10 @@ class Git extends Config {
     }
     execSync(`git tag v${this.version}`)
   }
-
+  push() {
+    execSync('git push')
+    execSync(`git push origin v${this.version}`)
+  }
   reset() {
     const commitHash = this.getLatestCommitHash()
     try {

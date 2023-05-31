@@ -33,8 +33,10 @@ export default class CLI {
         this.updateVersion(answers.name)
         this.git.commit(answers.name)
         this.git.tag()
+        this.git.push()
       })
   }
+
   updateVersion(version) {
     const obj = JSON.parse(JSON.stringify(this.pkg))
     obj.version = version
