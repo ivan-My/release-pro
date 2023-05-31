@@ -93,20 +93,15 @@ class Git extends Config {
     try {
       execSync(`git revert --no-commit ${commitHash}`, { stdio: 'inherit' });
       execSync('git reset', { stdio: 'inherit' });
-      console.log('Git rollback and undo successful!');
     } catch (error) {
-      console.error('Git rollback and undo failed:', error);
     }
   }
   // 获取最近一次commit hash
   getLatestCommitHash() {
-
     try {
       const hash = execSync('git rev-parse HEAD').toString().trim();
-      console.log('Latest commit hash:', hash);
       return hash;
     } catch (error) {
-      console.error('Failed to get latest commit hash:', error);
       return null;
     }
   }
