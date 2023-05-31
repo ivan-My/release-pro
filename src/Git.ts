@@ -4,8 +4,6 @@ import _ from 'lodash'
 import Config from './Config'
 import { GitType } from './utils/types'
 
-
-
 class Git extends Config {
   public options: any
   version: string
@@ -67,8 +65,9 @@ class Git extends Config {
     const msg = this.options.commitMessage.replace(/v\${version}/, version)
     try {
       execSync(`git commit -m '${msg}'`)
+
     } catch (error) {
-      console.log(error)
+      console.error('Error occurred while retrieving tags:', error);
     }
 
   }
