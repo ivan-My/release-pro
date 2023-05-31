@@ -1,7 +1,9 @@
+import fs from 'fs'
 import inquirer from 'inquirer';
 import colors from 'colors'
 import { getVersion, readJSON } from './utils'
 import Git from './Git'
+
 
 export default class CLI {
   public git: Git
@@ -28,9 +30,18 @@ export default class CLI {
       },])
       .then((answers) => {
         console.log('即将要升级的版本为', colors.green(answers.name));
+        this.updateVersion(answers.version)
         this.git.commit(answers.name)
         this.git.tag()
       })
+  }
+  updateVersion(version) {
+    const obj = JSON.parse(JSON.stringify(this.pkg))
+    obj.version = version
+    fs.writeFileSync(
+      `${process.cwd()}/package.json`,
+      JSON.stringify(obj, null, 2)
+    )
   }
 }
 

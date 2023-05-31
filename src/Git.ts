@@ -69,7 +69,6 @@ class Git extends Config {
     } catch (error) {
       console.error('Error occurred while retrieving tags:', error);
     }
-
   }
 
 
