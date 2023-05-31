@@ -65,7 +65,7 @@ class Git extends Config {
     this.version = version
     execSync('git add .')
     const msg = this.options.commitMessage.replace(/v\${version}/, version)
-    execSync(`git commit -m '${msg}'`)
+    execSync(`git commit -m '222${msg}'`)
   }
 
   tag() {
