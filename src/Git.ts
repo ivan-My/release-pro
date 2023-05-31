@@ -72,7 +72,6 @@ class Git extends Config {
     execSync(`git tag v${this.version}`)
   }
 
-
 }
 
 
