@@ -1,8 +1,10 @@
 export default {
-    git: {
-        "requireBranch": ""
-    },
-    npm:{
-
-    }
+  git: {
+    "requireBranch": "",
+    "tag": true,
+    "push": true,
+  },
+  npm: {
+    "publish": true
+  }
 }

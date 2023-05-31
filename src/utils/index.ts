@@ -14,3 +14,6 @@ export const getVersion = currentVersion => ({
   minor: semverInc(currentVersion, 'minor'),
   major: semverInc(currentVersion, 'major')
 })
+
+
+

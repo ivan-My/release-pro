@@ -2,7 +2,6 @@ import { execSync } from 'child_process'
 import colors from 'colors'
 import _ from 'lodash'
 import Config from './Config'
-import { GitType } from './utils/types'
 
 class Git extends Config {
   public options: any
@@ -85,10 +84,12 @@ class Git extends Config {
     }
     execSync(`git tag v${this.version}`)
   }
+
   push() {
     execSync('git push')
     execSync(`git push origin v${this.version}`)
   }
+
   reset() {
     const commitHash = this.getLatestCommitHash()
     try {
@@ -97,6 +98,7 @@ class Git extends Config {
     } catch (error) {
     }
   }
+
   // 获取最近一次commit hash
   getLatestCommitHash() {
     try {
@@ -106,11 +108,7 @@ class Git extends Config {
       return null;
     }
   }
-
 }
-
-
-
 
 
 export default Git
