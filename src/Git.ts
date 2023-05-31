@@ -8,10 +8,12 @@ import { GitType } from './utils/types'
 
 class Git extends Config {
   public options: any
+  version: string
 
   constructor() {
     super()
     this.options = this.config.git
+    this.version = ''
   }
   init() {
     this.prepare()
@@ -58,10 +60,16 @@ class Git extends Config {
     return execSync(`git for-each-ref --format="%(upstream:short)" ${ref}`).toString().trim()
   }
 
+
   commit(version) {
+    this.version = version
     execSync('git add .')
     const msg = this.options.commitMessage.replace(/v\${version}/, version)
     execSync(`git commit -m '${msg}'`)
+  }
+
+  tag() {
+    execSync(`git tag v${this.version}`)
   }
 
 
