@@ -65,7 +65,6 @@ class Git extends Config {
     const msg = this.options.commitMessage.replace(/v\${version}/, version)
     try {
       execSync(`git commit -m '${msg}'`)
-
     } catch (error) {
       console.error('Error occurred while retrieving tags:', error);
     }

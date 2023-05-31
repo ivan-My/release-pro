@@ -30,7 +30,7 @@ export default class CLI {
       },])
       .then((answers) => {
         console.log('即将要升级的版本为', colors.green(answers.name));
-        this.updateVersion(answers.version)
+        this.updateVersion(answers.name)
         this.git.commit(answers.name)
         this.git.tag()
       })
