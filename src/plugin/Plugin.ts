@@ -1,11 +1,17 @@
-import Config from "src/Config";
 
+import { readJSON } from '../utils/index';
+import config from '../release-pro-config'
 
-class Plugin extends Config {
+class Plugin {
+  config: any
   constructor() {
-    super()
+    const localConfig = readJSON(`${process.cwd()}/release-pro.json`)
+    this.config = { ...config, ...localConfig }
   }
   init() {
+
+  }
+  bump(version) {
 
   }
 }

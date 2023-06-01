@@ -1,33 +1,36 @@
 import fs from 'fs'
 import inquirer from 'inquirer';
-import colors from 'colors'
 import { getVersion, readJSON } from './utils'
 import Git from './plugin/Git'
-import {getCurrentBranch} from './utils/exec'
+import PluginManager from './plugin/PluginManager';
 
 export default class CLI {
   public git: Git
   pkg: any
   public nextVersion: Object
+  plugins: any
+
   constructor() {
-    this.git = new Git()
     this.pkg = readJSON(`${process.cwd()}/package.json`)
     this.nextVersion = getVersion(this.pkg.version)
+    this.plugins = new PluginManager().plugins
   }
-  run() {
-    // getCurrentBranch()
-    // .then(branchName => {
-    //   console.log('Current branch:', branchName);
-    // })
-    // .catch(error => {
-    //   console.error('Failed to get current branch:', error);
-    // });
-    // return
-    this.git.prepare()
-    inquirer
+  async run() {
+    for (const plugin of this.plugins) {
+      plugin['init']()
+    }
+    const { version } = await this.getVerion()
+    for (const plugin of this.plugins) {
+      plugin['bump'](version)
+    }
+
+  }
+
+  async getVerion() {
+    return await inquirer
       .prompt([{
         type: 'list',
-        name: 'name',
+        name: 'version',
         message: `请选择要发布的版本，当前版本为:${this.pkg.version}`,
         choices: Object.keys(this.nextVersion).map((item) => {
           return {
@@ -35,14 +38,11 @@ export default class CLI {
             value: this.nextVersion[item],
           }
         }),
-      },])
-      .then((answers) => {
-        console.log('即将要升级的版本为', colors.green(answers.name));
-        this.updateVersion(answers.name)
-        this.git.commit(answers.name)
-        this.git.tag()
-        this.git.push()
-      })
+      }])
+  }
+
+  runLifeCycleHook(plugin, name) {
+
   }
 
   updateVersion(version) {

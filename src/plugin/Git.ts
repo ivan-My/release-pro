@@ -2,6 +2,7 @@ import { execSync } from 'child_process'
 import colors from 'colors'
 import _ from 'lodash'
 import Plugin from './Plugin'
+import { log } from 'console'
 
 
 class Git extends Plugin {
@@ -9,16 +10,14 @@ class Git extends Plugin {
   version: string
 
   constructor() {
-    super()
+    super();
     this.options = this.config.git
     this.version = ''
   }
-  init() {
-    console.log('---npm---')
-    this.prepare()
-  }
 
-  prepare() {
+
+  init() {
+    console.log('---git---')
     if (this.options.requireBranch && !this.isRequiredBranch()) {
       console.log(colors.red(`必须在${this.options.requireBranch}分支上`))
       process.exit(-1)
@@ -26,7 +25,7 @@ class Git extends Plugin {
 
     if (!this.checkStatus()) {
       console.log(colors.red('工作目录有未提交的更改，请先提交或丢弃这些更改'))
-      process.exit(-1)
+      // process.exit(-1)
     }
 
     if (!this.hasUpstream()) {
@@ -34,6 +33,13 @@ class Git extends Plugin {
       process.exit(-1)
     }
   }
+
+  bump(version) {
+    this.commit(version)
+    this.tag()
+    this.push()
+  }
+
 
   getBranchName = () => {
     return execSync('git rev-parse --abbrev-ref HEAD').toString();
@@ -61,8 +67,10 @@ class Git extends Plugin {
 
 
   commit(version) {
+
     this.version = version
     execSync('git add .')
+
     const msg = this.options.commitMessage.replace(/v\${version}/, version)
     try {
       execSync(`git commit -m '${msg}'`)

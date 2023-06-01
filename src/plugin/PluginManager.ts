@@ -2,15 +2,16 @@ import Plugin from "./Plugin";
 import Npm from './Npm'
 import Git from './Git'
 
-
-
+const plugins = {
+  git: new Git(),
+  npm: new Npm()
+};
 
 class PluginManager {
   plugins: any
   constructor() {
-    this.plugins = [Npm, Git];
+    this.plugins = [new Npm(), new Git()];
   }
-
 
   register(plugin) {
     if (!(plugin instanceof Plugin)) {
@@ -19,6 +20,9 @@ class PluginManager {
     this.plugins.push(plugin);
   }
 
+  loader() {
+
+  }
   init() {
     this.plugins.forEach(plugin => plugin.init());
   }
